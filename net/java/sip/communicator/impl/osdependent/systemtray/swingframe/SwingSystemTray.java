@@ -17,11 +17,8 @@ public class SwingSystemTray extends SystemTray
     @Override
     public TrayIcon createTrayIcon(ImageIcon icon, String tooltip, Object popup)
     {
-//        dorkbox.systemTray.SystemTray systemTray;
-//        systemTray = dorkbox.systemTray.SystemTray.getSystemTray();
         SwingTrayIcon dbTrayIcon = new SwingTrayIcon(popup);
         dbTrayIcon.setIcon(icon);
-//popup.toString();
         return dbTrayIcon;
     }
 

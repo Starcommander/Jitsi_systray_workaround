@@ -60,7 +60,9 @@ public class SwingActionListener
                     ((JDialog) hiddenWindow).setUndecorated(true);
                 }
                 else
+                {
                     hiddenWindow = new JWindow((Frame) null);
+                }
 
                 hiddenWindow.setAlwaysOnTop(true);
                 Dimension size = popup.getPreferredSize();
@@ -84,6 +86,11 @@ public class SwingActionListener
 
                 // popup works only for focused windows
                 hiddenWindow.toFront();
+            }
+            else
+            {
+                hiddenWindow.dispose();
+                hiddenWindow = null;
             }
         }
     }

@@ -21,6 +21,7 @@ import javax.swing.*;
 
 import org.jitsi.util.OSUtils;
 
+import net.java.sip.communicator.impl.osdependent.systemtray.appindicator.IndicatorSystemTray;
 import net.java.sip.communicator.impl.osdependent.systemtray.awt.*;
 import net.java.sip.communicator.impl.osdependent.systemtray.swingframe.SwingSystemTray;
 
@@ -43,7 +44,7 @@ public abstract class SystemTray
             {
                 if (OSUtils.IS_LINUX)
                 { // There are problems with AWTSystemTray on Linux.
-                    systemTray = new SwingSystemTray();
+                    systemTray = new IndicatorSystemTray();
                 }
                 else
                 {
