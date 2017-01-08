@@ -48,6 +48,17 @@ public class NativeAppIndicator
         iconFileS = iconFile.getAbsolutePath();
       }
     }
+    else
+    {
+      try
+      {
+        CompatibleIcon.IconName.valueOf(iconFileS);
+      }
+      catch (Exception e)
+      { // Worst case, Icon is not a CompatibleIcon, and does not exist.
+        return ResourceExporter.exportResourceTmp(iconFileS);
+      }
+    }
     return iconFileS;
   }
   

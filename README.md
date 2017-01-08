@@ -11,6 +11,11 @@ osdependent.jar
 osdependent_v2.jar
 * Uses JAppIndicator for Linux.
 * See: https://github.com/Starcommander/JAppIndicator
+* Package libappindicator must be installed on target platform
+
+osdependent_v3.jar
+* Same as above, but bundled with libappindicator
+* Works on Jitsi-Version nightly from 2017-01-04
 
 Howto:  
 Replace (make backup first) the file:  

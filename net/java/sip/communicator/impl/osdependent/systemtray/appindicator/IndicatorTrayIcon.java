@@ -29,6 +29,14 @@ import net.java.sip.communicator.impl.osdependent.systemtray.swingframe.SwingAct
 
 public class IndicatorTrayIcon implements TrayIcon
 {
+  /** Set this var to true, to load installed libs of Linux filesystem instead.
+   * <br/>Package libappindicator has to be installed. **/
+  public boolean useSystemLib = false;
+  
+  /** Set this var to true, if libNativeAppIndicator.so is already stored on filesystem.
+   * <br/>Path must be included into java.library.path! **/
+  public boolean useStoredLib = false;
+  
   NativeAppIndicator appIndicator;
   HashMap<String,String> iconMap = new HashMap<String,String>();
   String currentIconFile;
@@ -175,16 +183,46 @@ public class IndicatorTrayIcon implements TrayIcon
   private void loadLib()
   {
     String libPath = "/net/java/sip/communicator/impl/osdependent/systemtray/appindicator/starcom/";
+    String libPathLinuxA = libPath;
+    String libPathLinuxB = libPath;
+    String libPathLinuxC = libPath;
+    String libPathLinuxD = libPath;
     String arch = System.getProperty("os.arch");
     if (arch.toLowerCase().equals("amd64"))
     {
       libPath = libPath + "linux64/libNativeAppIndicator.so";
+      libPathLinuxA = libPathLinuxA + "linux64/libdbusmenu-glib.so.4.0.12";
+      libPathLinuxB = libPathLinuxB + "linux64/libdbusmenu-gtk.so.4.0.12";
+      libPathLinuxC = libPathLinuxC + "linux64/libindicator.so.7.0.0";
+      libPathLinuxD = libPathLinuxD + "linux64/libappindicator.so.1.0.0";
     }
     else
     {
       libPath = libPath + "linux32/libNativeAppIndicator.so";
+      libPathLinuxA = libPathLinuxA + "linux32/libdbusmenu-glib.so.4.0.12";
+      libPathLinuxB = libPathLinuxB + "linux32/libdbusmenu-gtk.so.4.0.12";
+      libPathLinuxC = libPathLinuxC + "linux32/libindicator.so.7.0.0";
+      libPathLinuxD = libPathLinuxD + "linux32/libappindicator.so.1.0.0";
     }
-    
+    if (!useSystemLib)
+    {
+      loadLibResource(libPathLinuxA);
+      loadLibResource(libPathLinuxB);
+      loadLibResource(libPathLinuxC);
+      loadLibResource(libPathLinuxD);
+    }
+    if (useStoredLib)
+    {
+      System.loadLibrary("NativeAppIndicator");
+    }
+    else
+    {
+      loadLibResource(libPath);
+    }
+  }
+  
+  private void loadLibResource(String libPath)
+  {
     try
     {
       File libFile = File.createTempFile("AppIndicator", ".so");
@@ -198,4 +236,5 @@ public class IndicatorTrayIcon implements TrayIcon
       e.printStackTrace();
     }
   }
+
 }
